@@ -2,6 +2,16 @@ import sys
 
 
 def solve(case_number, length, case):
+    sol1 = solveA(case_number, length, case)
+    sol2 = solveB(case_number, length, case)
+    comp = compare(sol1, sol2)
+    print(sol1)
+    print(sol2)
+    print(comp)
+    return sol1
+
+
+def solveA(case_number, length, case):
     numbers = [int(elem) for elem in case]
     dictionary = {}
     copy = numbers[:]
@@ -17,38 +27,14 @@ def solve(case_number, length, case):
         else:
             current_index = numbers.index(minimum)
         dictionary[index] = minimum
-        if abs(index - current_index) % 2 != 0:
-            return "Case #"+str(case_number + 1)+": " + str(index)
-    # copy = numbers[:]
-    # copy.sort()
-    # trouble_sorted = trouble_sort(numbers)
-    # if copy == trouble_sorted:
-    #     return "Case #"+str(case_number + 1)+": " + "OK"
-    # failure = test_indeces(copy, trouble_sorted)
-    # return "Case #"+str(case_number + 1)+": " + str(failure)
-    return "Case #"+str(case_number + 1)+": " + "OK"
-
-
-def solvA(case_number, length, numbers):
-     for index in range(0, length):
-        minimum, copy = take_min(copy)
-        seed = 0
-        if minimum in dictionary.values():
-            repeats = list(dictionary.values()).count(minimum)
-            for time in range(0, repeats):
-                seed = numbers.index(minimum, seed)
-                seed += 1
-            current_index = numbers.index(minimum, seed)
-        else:
-            current_index = numbers.index(minimum)
-        dictionary[index] = minimum
+        print(dictionary)
         if abs(index - current_index) % 2 != 0:
             return "Case #"+str(case_number + 1)+": " + str(index)
     return "Case #"+str(case_number + 1)+": " + "OK"
 
 
-
-def solB(case_number, numbers):
+def solveB(case_number, length, case):
+    numbers = [int(elem) for elem in case]
     copy = numbers[:]
     copy.sort()
     trouble_sorted = trouble_sort(numbers)
