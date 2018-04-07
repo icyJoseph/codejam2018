@@ -18,16 +18,26 @@ def solveA(case_number, length, case):
     for index in range(0, length):
         minimum, copy = take_min(copy)
         seed = 0
-        if minimum in dictionary.values():
-            repeats = list(dictionary.values()).count(minimum)
-            for time in range(0, repeats):
-                seed = numbers.index(minimum, seed)
-                seed += 1
-            current_index = numbers.index(minimum, seed)
+        if numbers.count(minimum) > 1:
+            repeats = numbers.count(minimum)
+            flag = True
+            i = 0
+            while flag:
+                if i < repeats:
+                    current_index = numbers.index(minimum, seed)
+                    if abs(index - current_index) % 2 == 0:
+                        dictionary[index] = [minimum, current_index]
+                        flag = False
+                    seed = numbers.index(minimum, seed)
+                    seed += 1
+                if i >= repeats:
+                    flag = False
         else:
             current_index = numbers.index(minimum)
-        dictionary[index] = minimum
+            dictionary[index] = [minimum, current_index]
         print(dictionary)
+        print('current_index ' + str(current_index))
+        print('index ' + str(index))
         if abs(index - current_index) % 2 != 0:
             return "Case #"+str(case_number + 1)+": " + str(index)
     return "Case #"+str(case_number + 1)+": " + "OK"
