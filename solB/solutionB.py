@@ -1,29 +1,15 @@
-# Read a given filename
-def read_input(filename):
-    with open(filename) as file:
-        input = file.readlines()
-        inputArr = [i.replace("\n", "").split() for i in input]
-        return inputArr
+import sys
 
 
-# Output a file given a list of strings
-# list = ["string", "string", ....]
-def print_output(filename, list):
-    outputname = filename.split('.')
-    output_file = open(outputname[0]+'.out', 'w')
-    for element in list:
-        output_file.write(element)
-        output_file.write('\n')
-    output_file.close()
-    print("Done.")
+def solve(case_number, case):
+    return "Case #"+str(case_number + 1)+": " + str(case_number)
 
 
-# Solution goes here
-def process(problem):
-    return ['dummy', 'dummy2']
+number_of_cases = int(input())
+solution = []
+for _ in range(0, number_of_cases):
+    solution.append(solve(_, input().split()))
 
-
-filename = "example.in"
-problem = read_input(filename)
-output = process(problem)
-print_output(filename, output)
+for sol in solution:
+    print(sol)
+    sys.stdout.flush()
