@@ -32,12 +32,13 @@ def solveA(case_number, length, case):
                     seed += 1
                 if i >= repeats:
                     flag = False
+                i += 1
         else:
             current_index = numbers.index(minimum)
             dictionary[index] = [minimum, current_index]
-        print(dictionary)
-        print('current_index ' + str(current_index))
-        print('index ' + str(index))
+        # print(dictionary)
+        # print('current_index ' + str(current_index))
+        # print('index ' + str(index))
         if abs(index - current_index) % 2 != 0:
             return "Case #"+str(case_number + 1)+": " + str(index)
     return "Case #"+str(case_number + 1)+": " + "OK"
@@ -94,7 +95,7 @@ number_of_cases = int(input())
 solution = []
 for _ in range(0, number_of_cases):
     incoming_length = int(input())
-    solution.append(solve(_, incoming_length, input().split()))
+    solution.append(solveB(_, incoming_length, input().split()))
 
 for sol in solution:
     print(sol)
