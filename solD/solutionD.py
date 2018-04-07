@@ -11,27 +11,13 @@ def solve(case_number, area):
     x_center = [0.5, 0, 0, 1]
     y_center = [0, 0.5, 0, 1]
     z_center = [0, 0, 0.5, 1]
-    normal = [0, 1, 0, 1]
 
-    dot_x = dotProduct(x_center[:3], normal[:3])
-    if dot_x != 0:
-        a = module(x_center[:3]) * module(normal[:3]) / dot_x
-    else:
-        a = PI/2
+    cos_x_n = cos_N(x_center[:3])
+    cos_y_n = cos_N(y_center[:3])
+    cos_z_n = cos_N(z_center[:3])
 
-    dot_y = dotProduct(y_center[:3], normal[:3])
-    if dot_y != 0:
-        b = module(y_center[:3]) * module(normal[:3]) / dot_y
-    else:
-        b = PI/2
+    proj_area = area_calc(cos_x_n, cos_y_n, cos_z_n)
 
-    dot_z = dotProduct(z_center[:3], normal[:3])
-    if dot_z != 0:
-        c = module(z_center[:3]) * module(normal[:3]) / dot_z
-    else:
-        c = PI/2
-    # deviation respect to the normal vector y
-    proj_area = area_calc(a, b, c)
     if proj_area < area:
         # rotate around one axis
         rot_x = rotX(PI/4)
@@ -43,6 +29,13 @@ def solve(case_number, area):
     print(y_center[:3])
     print(z_center[:3])
 
+    cos_x_n = cos_N(x_center[:3])
+    cos_y_n = cos_N(y_center[:3])
+    cos_z_n = cos_N(z_center[:3])
+
+    proj_area = area_calc(cos_x_n, cos_y_n, cos_z_n)
+    print('final: ' + str(proj_area))
+
     #     # rotate
     # b += PI/4
     # # new area
@@ -51,6 +44,12 @@ def solve(case_number, area):
     # x_center = rotation_matrix[:3]
     # print(x_center)
     return "Case #"+str(case_number + 1)+": " + str(proj_area)
+
+
+def cos_N(vector):
+    normal = [0, 1, 0]
+    dot_p = dotProduct(vector, normal)
+    return dot_p / (module(vector) * module(normal))
 
 
 def module(vector):
@@ -77,7 +76,7 @@ def matrix_mult(X, Y):
 
 
 def area_calc(a, b, c):
-    return abs(math.cos(a)) + abs(math.cos(b)) + abs(math.cos(c))
+    return abs(a) + abs(b) + abs(c)
 
 
 def rotX(a):
