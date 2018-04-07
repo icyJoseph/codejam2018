@@ -1,15 +1,20 @@
 import sys
 
 
-def solve(case_number, case):
-    return "Case #"+str(case_number + 1)+": " + str(case_number)
-
-
-number_of_cases = int(input())
-solution = []
-for _ in range(0, number_of_cases):
-    solution.append(solve(_, input().split()))
-
-for sol in solution:
-    print(sol)
+def flusher(x, y):
+    print(x, y)
     sys.stdout.flush()
+
+
+def decision(i, j):
+    return i + 10, j-10
+
+
+grid = [1000, 1000]
+number_of_tests = int(input())
+for test in range(0, number_of_tests):
+    area = int(input())
+    flusher(10, 10)
+    i, j = [int(elem) for elem in input()]
+    x, y = decision(i, j)
+    flusher(x, y)
