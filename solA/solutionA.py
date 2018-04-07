@@ -1,30 +1,4 @@
-# Read a given filename
-def read_input(filename):
-    with open(filename) as file:
-        input = file.readlines()
-        inputArr = [i.replace("\n", "").split() for i in input]
-        return inputArr
-
-
-# Output a file given a list of strings
-# list = ["string", "string", ....]
-def print_output(filename, list):
-    outputname = filename.split('.')
-    output_file = open(outputname[0]+'.out', 'w')
-    for element in list:
-        output_file.write(element)
-        output_file.write('\n')
-    output_file.close()
-    print("Done.")
-
-
-# Solution goes here
-def process(problem):
-    number_of_cases = int(problem[0][0])
-    cases = problem[1:]
-    solution = [solve(case_number, cases[case_number])
-                for case_number in range(0, number_of_cases)]
-    return solution
+import sys
 
 
 def solve(case_number, case):
@@ -71,7 +45,11 @@ def hack_robot(instructions_arr):
                 return instructions_arr
 
 
-filename = "example.in"
-problem = read_input(filename)
-output = process(problem)
-print_output(filename, output)
+number_of_cases = int(input())
+solution = []
+for _ in range(0, number_of_cases):
+    solution.append(solve(_, input().split()))
+
+for sol in solution:
+    print(sol)
+    sys.stdout.flush()
