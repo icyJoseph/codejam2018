@@ -1,7 +1,7 @@
 import sys
 
 
-def check_surrounding(state, x, y):
+def one_empty_surrounding(state, x, y):
     # if the matrix around a point has already been done,
     # skip it
     for i in [-1, 0, 1]:
@@ -18,19 +18,18 @@ number_of_tests = int(input())
 for test in range(0, number_of_tests):
     done = False
     area = int(input())
-    path = 0
-    if area < 100:
-        path = area
-        folds = area // 2
-    else:
-        folds = (area // 1000) + 1
-        path = 1000
+
+    blocks = area // 9
+
     direction = 'y'
     x, y = 2, 2
     state = set()
     while not done:
+        block = 1
         # check whether or not to give the command:
-        if check_surrounding(state, x, y):
+        # if all 9 cells around the decided point are covered,
+        # skip it
+        while one_empty_surrounding(state, x, y) and not done:
             # give a command to gopher
             print(x, y)
             sys.stdout.flush()
@@ -43,17 +42,14 @@ for test in range(0, number_of_tests):
                 exit()
             elif [i, j] == [0, 0]:
                 done = True
-        else:
-            if direction == 'y':
-                y += 1
-                if y >= path + 1:
-                    direction = 'x'
-            elif direction == 'x':
-                x += 1
-                y = 2
-                direction = 'y'
-                if x >= folds:
-                    y = 2
-                    x = 2
-                    direction = 'y'
+        if direction == 'y':
+            y += 2
+            block += 1
+            if block >= blocks:
+                direction = 'x'
+        elif direction == 'x':
+            x += 2
+            y = 2
+            direction = 'y'
+
 exit()
