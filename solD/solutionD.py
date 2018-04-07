@@ -17,29 +17,39 @@ def solve(case_number, area):
 
     proj_area = area_calc(cos_x_n, cos_y_n, cos_z_n)
 
-    if proj_area < area:
+    step = PI / 4
+
+    while abs(proj_area - area) > 1e-06:
         # rotate around one axis
-        rot_x = rotX(PI/4)
+        # print(step)
+        rot_x = rotX(step)
         x_center = matrix_mult(rot_x, x_center)
         y_center = matrix_mult(rot_x, y_center)
         z_center = matrix_mult(rot_x, z_center)
 
-    cos_x_n = cos_N(x_center[:3])
-    cos_y_n = cos_N(y_center[:3])
-    cos_z_n = cos_N(z_center[:3])
+        cos_x_n = cos_N(x_center[:3])
+        cos_y_n = cos_N(y_center[:3])
+        cos_z_n = cos_N(z_center[:3])
 
-    proj_area = area_calc(cos_x_n, cos_y_n, cos_z_n)
-    print('final: ' + str(proj_area))
-
+        proj_area = area_calc(cos_x_n, cos_y_n, cos_z_n)
+        if proj_area > area:
+            step = - abs(step / 2)
+        elif proj_area < area:
+            step = abs(step / 2)
     x_string = vectorString(x_center[:3])
     y_string = vectorString(y_center[:3])
     z_string = vectorString(z_center[:3])
 
-    return "Case #"+str(case_number + 1)+":\n" + x_string + "\n" + y_string + "\n" + z_string
+    return "Case #"+str(case_number + 1)+":\n" + x_string + \
+        "\n" + y_string + "\n" + z_string
 
 
 def vectorString(vector):
-    return ' '.join(str(e) for e in vector)
+    copy = vector[:]
+    for index in range(0, len(copy)):
+        if copy[index] == 0.0:
+            copy[index] = '0'
+    return ' '.join(str(e) for e in copy)
 
 
 def cos_N(vector):
