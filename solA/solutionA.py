@@ -30,34 +30,44 @@ def process(problem):
 def solve(case_number, case):
     shield_string, instructions = case
     shield = int(shield_string)
-    print(case_number)
-    x = robot_wins(instructions, shield)
-    print(x)
-    return "Case #"+str(case_number + 1)+": " + "SOLUTION"
-
-
-def robot_wins(instructions, shield):
     instructions_arr = [instruction for instruction in instructions]
+    shield_breaks = robot_wins(instructions_arr, shield)
+    changes = 0
+    while shield_breaks:
+        previous_instructions = instructions_arr[:]
+        hack_robot(instructions_arr)
+        changes += 1
+        shield_breaks = robot_wins(instructions_arr, shield)
+        if previous_instructions == instructions_arr:
+            # no change was possible to the instructions
+            if shield_breaks:
+                return "Case #"+str(case_number + 1)+": " + "IMPOSSIBLE"
+    return "Case #"+str(case_number + 1)+": " + str(changes)
+
+
+def robot_wins(instructions_arr, shield):
     damage = 1
     for command in instructions_arr:
         if command == 'S':
-            print('shoot with: ' + str(damage) + " to shield: " + str(shield))
-            if (damage > shield):
+            shield = shield - damage
+            if shield < 0:
                 return True
         if command == 'C':
             damage += damage
     return False
 
 
-def hack_robot(instructions_arr, left):
+def hack_robot(instructions_arr):
     # swap S's
-    for index in range(0, instructions_arr):
+    for index in range(0, len(instructions_arr) - 1):
         command = instructions_arr[index]
-        if command == 'S':
+        if command == 'C':
             next_command = instructions_arr[index+1]
-            if next_command == 'C':
-                instructions_arr[index] = 'C'
-                instructions_arr[index+1] = 'S'
+            if next_command == 'S':
+                instructions_arr.pop(index)
+                instructions_arr.insert(index, 'S')
+                instructions_arr.pop(index+1)
+                instructions_arr.insert(index + 1, 'C')
                 return instructions_arr
 
 
